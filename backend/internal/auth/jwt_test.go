@@ -51,7 +51,7 @@ func TestValidateToken_InvalidSignature(t *testing.T) {
 }
 
 func TestValidateToken_Expired(t *testing.T) {
-	expirationTime := time.Now().Add(-1 * time.Hour) // Expired 1 hour ago
+	expirationTime := time.Now().Add(-1 * time.Hour)
 	claims := &Claims{
 		UserID: 1,
 		Role:   "admin",

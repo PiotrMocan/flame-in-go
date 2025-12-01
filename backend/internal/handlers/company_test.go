@@ -30,7 +30,7 @@ func TestCreateCompany_InvalidInput(t *testing.T) {
 func TestCreateCompany_MalformedJSON(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
-	jsonBody := `{"name": "Acme", "address": ` // Incomplete JSON
+	jsonBody := `{"name": "Acme", "address": `
 	req, _ := http.NewRequest("POST", "/companies", bytes.NewBufferString(jsonBody))
 	req.Header.Set("Content-Type", "application/json")
 
