@@ -22,28 +22,6 @@ func ConnectDatabase() {
 	sslmode := os.Getenv("DB_SSLMODE")
 	timezone := os.Getenv("DB_TIMEZONE")
 
-	if host == "" {
-		host = "localhost"
-	}
-	if user == "" {
-		user = "postgres"
-	}
-	if password == "" {
-		password = "postgres"
-	}
-	if dbname == "" {
-		dbname = "flame_crm"
-	}
-	if port == "" {
-		port = "5432"
-	}
-	if sslmode == "" {
-		sslmode = "disable"
-	}
-	if timezone == "" {
-		timezone = "UTC"
-	}
-
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=%s TimeZone=%s",
 		host, user, password, dbname, port, sslmode, timezone)
 
