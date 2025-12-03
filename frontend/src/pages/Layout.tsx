@@ -1,10 +1,14 @@
-import { Outlet, Link, useNavigate } from 'react-router-dom';
+import { Outlet, Link, useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/button';
 
 export default function Layout() {
-  const { user, logout } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+  if (!isAuthenticated) {
+      return <Navigate to="/login" replace />;
+  }
 
   const handleLogout = () => {
     logout();
@@ -23,6 +27,7 @@ export default function Layout() {
             <Link to="/companies" className="block py-2 px-4 rounded hover:bg-gray-100 text-gray-700">Companies</Link>
             <Link to="/users" className="block py-2 px-4 rounded hover:bg-gray-100 text-gray-700">Users</Link>
             <Link to="/customers" className="block py-2 px-4 rounded hover:bg-gray-100 text-gray-700">Customers</Link>
+            <Link to="/funnels" className="block py-2 px-4 rounded hover:bg-gray-100 text-gray-700">Funnels</Link>
         </nav>
         <div className="p-6 absolute bottom-0 w-64">
              <Button variant="outline" className="w-full" onClick={handleLogout}>Logout</Button>

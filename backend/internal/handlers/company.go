@@ -10,7 +10,7 @@ import (
 
 func GetCompanies(c *gin.Context) {
 	var companies []models.Company
-	if err := db.DB.Preload("Users").Preload("Customers").Find(&companies).Error; err != nil {
+	if err := db.DB.Preload("Users").Preload("Customers").Preload("Funnel").Find(&companies).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}

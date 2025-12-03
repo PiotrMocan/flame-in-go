@@ -43,6 +43,11 @@ func main() {
 		protected.GET("/customers", handlers.GetCustomers)
 		protected.POST("/customers", handlers.CreateCustomer)
 		protected.PUT("/customers/:id", handlers.UpdateCustomer)
+
+		protected.GET("/funnels", handlers.GetFunnels)
+		protected.POST("/funnels", handlers.CreateFunnel)
+		protected.PUT("/funnels/:id", handlers.UpdateFunnel)
+		protected.DELETE("/funnels/:id", handlers.DeleteFunnel)
 	}
 
 	r.Run(":8080")

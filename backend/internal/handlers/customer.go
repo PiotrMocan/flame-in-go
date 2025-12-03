@@ -40,12 +40,50 @@ func UpdateCustomer(c *gin.Context) {
 		return
 	}
 
-	var input models.Customer
+	var input models.UpdateCustomerInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	db.DB.Model(&customer).Updates(input)
+	if input.Name != "" {
+		customer.Name = input.Name
+	}
+	if input.Email != "" {
+		customer.Email = input.Email
+	}
+	if input.Phone != "" {
+		customer.Phone = input.Phone
+	}
+
+	if input.FunnelID != nil && customer.FunnelID != nil {
+		if *input.FunnelID != *customer.FunnelID {
+			var currentFunnel models.Funnel
+			if err := db.DB.Preload("NextFunnels").First(&currentFunnel, *customer.FunnelID).Error; err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Current funnel state invalid"})
+				return
+			}
+
+			valid := false
+			for _, next := range currentFunnel.NextFunnels {
+				if next.ID == *input.FunnelID {
+					valid = true
+					break
+				}
+			}
+			if !valid {
+				c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid funnel transition"})
+				return
+			}
+		}
+	}
+
+	customer.FunnelID = input.FunnelID
+
+	if input.FunnelStage != "" {
+		customer.FunnelStage = input.FunnelStage
+	}
+
+	db.DB.Save(&customer)
 	c.JSON(http.StatusOK, customer)
 }

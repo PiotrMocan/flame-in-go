@@ -8,5 +8,6 @@ type Company struct {
 	Address   string     `json:"address"`
 	Users     []User     `json:"users,omitempty"`
 	Customers []Customer `json:"customers,omitempty"`
-	Funnels   []Funnel   `json:"funnels,omitempty"`
+	FunnelID  *uint      `json:"funnel_id"`
+	Funnel    *Funnel    `json:"funnel,omitempty"`
 }

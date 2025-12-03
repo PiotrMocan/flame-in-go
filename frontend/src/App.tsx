@@ -1,46 +1,28 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { type ReactNode } from 'react';
-import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from '@/pages/Login';
-import Layout from '@/pages/Layout';
 import Dashboard from '@/pages/Dashboard';
+import Layout from '@/pages/Layout';
 import Companies from '@/pages/Companies';
 import Users from '@/pages/Users';
 import Customers from '@/pages/Customers';
-
-const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const { isAuthenticated } = useAuth();
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-  return children;
-};
-
-function AppRoutes() {
-  return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      
-      <Route path="/" element={
-        <ProtectedRoute>
-          <Layout />
-        </ProtectedRoute>
-      }>
-        <Route index element={<Dashboard />} />
-        <Route path="companies" element={<Companies />} />
-        <Route path="users" element={<Users />} />
-        <Route path="customers" element={<Customers />} />
-      </Route>
-    </Routes>
-  );
-}
+import Funnels from '@/pages/Funnels';
+import { AuthProvider } from '@/context/AuthContext';
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="companies" element={<Companies />} />
+            <Route path="users" element={<Users />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="funnels" element={<Funnels />} />
+          </Route>
+        </Routes>
+      </Router>
     </AuthProvider>
   );
 }
